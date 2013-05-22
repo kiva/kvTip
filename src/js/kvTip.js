@@ -61,11 +61,48 @@ function KvTip ($el, options) {
 
 KvTip.prototype = {
 
+    hideOnTimeout: function () {
+        var $tip = this.$tip
+        , tip = this
+        , opts = this.options;
+
+        if(!isset($tip) || !$tip.length){
+            return;
+        }
+
+        // Set a timer, allows time to hover from target element to tooltip and back
+        this._timer = setTimeout(function() {
+            tip.hide();
+        }, opts.hideDelay);
+
+    }
+
+
+    , hide: function () {
+        var $el = this.$el;
+        var tip = this;
+        var $tip = this.$tip;
+        var opts = this.options;
+
+        // Add the html title attribute back to the target element
+        $el.attr('title', tip.elTitle || '' );
+
+        // Hide the tooltip
+        $tip.fadeOut('fast', 'linear', function() {
+            if (typeof opts.onhide == 'function'){
+                tip.onhide(this);
+            }
+        }).removeClass('active');
+
+    }
+
+
+
     /**
      * Position's the tooltip in the appropriate place.
      *
      */
-    position: function () {
+    , position: function () {
         var elPos = $.extend({}, $el.offset(), {
             width: $el[0].offsetWidth
             , height: $el[0].offsetHeight
@@ -134,12 +171,12 @@ KvTip.prototype = {
                 self._resetTimer();
             })
             .mouseleave(function(){
-                hideTip($el, $tip, tip, opts);
+                self.hide();
             })
             .addClass('loading')
             .appendTo('body')
             .click(function() {
-                hideTip($el, $tip, tip, opts);
+                self.hide();
             });
 
         this.$tip = $tip;
@@ -332,7 +369,7 @@ KvTip.prototype = {
                     self._resetTimer();
                 })
                 .mouseleave(function () {
-                    hideTip($el, $tip, tip, opts);
+                    self.hide();
                 });
         }
         else{
@@ -347,7 +384,7 @@ KvTip.prototype = {
                 .mouseleave(function () {
                     // @todo, better integrate with hoverIntent, we should be able to use hoverIntent's "out" method instead of this event handler
                     // Currently, the reason for the extra event handler is to take the hover timeout into consideration
-                    hideTip($el, $tip, self, opts);
+                    self.hide();
                 });
         }
 
@@ -387,26 +424,6 @@ function showTip($tip, opts){
                 opts.onshow.apply($tip);
             }
         });
-}
-
-function hideTip($el, $tip, tip, opts){
-    if(!isset($tip) || !$tip.length){
-        return;
-    }
-
-    // Set a timer, allows time to hover from target element to tooltip and back
-    timer[tip.i] = setTimeout(function() {
-        // Add the html title attribute back to the target element
-        $el.attr('title', tip.elTitle || '' );
-
-        // Hide the tooltip
-        $tip.fadeOut('fast', 'linear', function() {
-            if (typeof opts.onhide == 'function'){
-                opts.onhide(this);
-            }
-        }).removeClass('active');
-
-    }, opts.hideDelay);
 }
 
 
