@@ -183,8 +183,22 @@ function getTip ($el, tip, opts) {
             }
         });
 
+    var pos = $.extend({}, $el.offset(), {
+        width: $el[0].offsetWidth
+        , height: $el[0].offsetHeight
+    });
+
+    var actualWidth = $tip[0].offsetWidth,
+        actualHeight = $tip[0].offsetHeight;
+
+    var css = {
+        'z-index': zIndex + 1
+        , top: pos.top + pos.height / 2 - actualHeight / 2
+        , left: pos.left + pos.width
+    };
+
     // Build it
-    $tip.css('z-index', zIndex + 1)
+    $tip.css(css)
         .append('<div class="kvTipContent"></div>')
         .mouseenter(function(){
             clearTimeout(timer[tip.i]);
@@ -195,7 +209,6 @@ function getTip ($el, tip, opts) {
         })
         .addClass('loading')
         .appendTo('body')
-//        .position(opts.position)
         .click(function() {
             hideTip($el, $tip, tip, opts);
         });
