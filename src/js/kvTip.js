@@ -15,7 +15,9 @@ $.fn.kvTip = function (args){
         args = {content:args};
     }
 
-    var options = $.extend(true, {}, args, KvTip.defaults);
+    var className = KvTip.defaults.className;
+    var options = $.extend(true, {}, KvTip.defaults, args);
+    options.className += ' ' + className;
 
     // Iterate thru each tooltip
     return this.each(function() {
@@ -27,7 +29,7 @@ $.fn.kvTip = function (args){
 
 function KvTip ($el, options) {
 
-    var opts = $.extend({}, options)	// individual tooltip options
+    var opts = $.extend(this, options)	// individual tooltip options
 
     this._timer = '';
     this._id = count++;
@@ -52,7 +54,27 @@ function KvTip ($el, options) {
 
 KvTip.prototype = {
 
-    hideOnTimeout: function () {
+
+    showTip: function () {
+        var $tip = this.$tip
+        , opts = this.options;
+
+        // No need to show a tip that is already visible
+        if( $tip.hasClass('active')){
+            return;
+        }
+
+        $tip.css({display: 'none', visibility: 'visible'})
+            .addClass('active')
+            .fadeIn(400, function () {
+                if (typeof opts.onshow == 'function') {
+                    opts.onshow.apply($tip);
+                }
+            });
+    }
+
+
+    , hideOnTimeout: function () {
         var $tip = this.$tip
         , tip = this
         , opts = this.options;
@@ -118,7 +140,7 @@ KvTip.prototype = {
         var opts = this.options;
 
 
-        var $tip = $('<div id="' + tip.id() + '" class="' + opts.className + '" />')
+        var $tip = $('<div id="' + tip.id() + '" class="' + this.className + '" />')
             , zIndex;
 
         // Add an externally defined title if it exists
@@ -290,7 +312,7 @@ KvTip.prototype = {
     , initBindings: function () {
         var self = this;
         var $tip = this.$tip;
-        var $el = this.$el
+        var $el = this.$el;
         var opts = this.options;
 
         // Immediately create the tooltip upon hovering over the target element...just don't display it
@@ -310,7 +332,7 @@ KvTip.prototype = {
 
             // Make sure we have a tooltip
             // Does one already exist?  Even if it does, have we disabled caching?
-            if (!$tip.length || (self.ajax && self.ajax.cache === false) || (self.cache === false)){
+            if (!$tip.length || (self.ajax && self.ajax.cache === false) || (self.cache === false)) {
 
                 // If caching is off, remove the old tooltip
                 if ((self.ajax && self.ajax.cache === false) || (self.cache === false)){
@@ -352,9 +374,9 @@ KvTip.prototype = {
         // Now that we have a tooltip, display it
         if (opts.showOnclick){
             // Otherwise, add the click event
-            $el.click(function (e) {
-                e.preventDefault();
-                showTip($tip, opts);
+            $el.click(function (event) {
+                event.preventDefault();
+                self.showTip();
             })
                 .mouseenter(function () {
                     self._resetTimer();
@@ -368,7 +390,7 @@ KvTip.prototype = {
             // Attach hover event if onclick is disabled
             $el.hoverIntent(function () {
                     self._resetTimer()
-                    showTip($tip, opts);
+                    self.showTip();
                 }
                 , function () {} // @todo, see note on mouseleave event
             )
@@ -401,21 +423,6 @@ KvTip.defaults = {
     , hideOnDelay: 300
 };
 
-
-function showTip($tip, opts){
-    // No need to show a tip that is already visible
-    if( $tip.hasClass('active')){
-        return;
-    }
-
-    $tip.css({display: 'none', visibility: 'visible'})
-        .addClass('active')
-        .fadeIn(400, function () {
-            if (typeof opts.onshow == 'function') {
-                opts.onshow.apply($tip);
-            }
-        });
-}
 
 
 function fitsInViewport($tip) {
