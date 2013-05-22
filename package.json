@@ -1,0 +1,29 @@
+{
+  "name": "kvTip",
+  "version": "0.6.0",
+  "description": "Kiva's tooltips",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test --verbose",
+    "prepublish": "bower install  && git ls-files -z dist/ | xargs -0 git update-index --assume-unchanged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kiva/kvTip.git"
+  },
+  "keywords": [
+    "kiva",
+    "tooltips"
+  ],
+  "license": "MIT",
+  "readmeFilename": "readme.md",
+  "devDependencies": {
+    "buster": "~0.6.12",
+    "buster-coverage": "~0.1.0",
+    "grunt": "~0.4.1",
+    "grunt-buster": "~0.1.2",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-rigger": "~0.4.0"
+  }
+}

@@ -1,0 +1,8 @@
+.DS_Store
+npm-debug.log
+/components
+/node_modules
+/test/coverage
+
+# The following are ignore using --assume-unchanged
+# dist/
