@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="../css/kvTip.css" rel="stylesheet"/>
+	<link href="qunit/qunit.css" rel="stylesheet"/>
+
+	<title></title>
+
+	<script src="../js/jquery-1.6.2.min.js"></script>
+	<script src="qunit/qunit.js"></script>
+</head>
+<body>
+	<h1 id="qunit-header">kvTip Test</h1>
+	<h2 id="qunit-banner"></h2>
+
+	<div id="qunit-testrunner-toolbar"></div>
+
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+
+	<!-- Test HTML -->
+
+	<div id="qunit-fixture">
+		<div id="noArgs" title="Title content">This tooltip gets it's content from the element's title attribute</div>
+		<div id="noArgsNoTitle">This tooltip will attempt to get it's content from the element's title attribute, but there is none, so it should not show anything</div>
+		<div id="stringArg">This tooltip will display the string that was passed to it as an argument</div>
+		<div id="emptyStringArg">This tooltip should not display as it will be passed an empty string argument</div>
+	</div>
+	
+	<script src="../js/jquery-ui-1.8.14.custom.min.js"></script>
+	<script src="../js/jquery.hoverIntent.js"></script>
+	<script src="../js/jquery.kvTip.js"></script>
+	<script src="test.js"></script>
+</body>
+</html>

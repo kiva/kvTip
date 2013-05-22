@@ -1,0 +1,16 @@
+.kvTip { background-color: #fffbe2; border:  #ccc 1px solid; overflow: auto; padding: 20px; position: absolute; visibility: hidden; word-wrap: break-word; z-index: 2000;
+	-moz-box-shadow: 0 0 6px 1px #888;
+	-webkit-box-shadow: 0 0 6px 1px #888;
+	box-shadow: 0 0 6px 1px #888;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.kvTip.active { z-index: 2001;}
+
+.kvTip.loading { width: 16px; height: 16px;
+	background-image: url(../img/loading.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+}

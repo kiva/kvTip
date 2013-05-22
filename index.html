@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<link href="css/style.css" rel="stylesheet" />
+	<link href="../dev/css/kv.tip.css" rel="stylesheet" />
+	<title>kvTip - Demo Page</title>
+</head>
+<body>
+
+	<header>
+		<h1>KvTip Demo Page</h1>
+	</header>
+
+	<div class="main">
+		<nav class="sidebar">
+			<ul>
+				<li><a href="#" class="tt1 tooltip" title="">Item 1: No Title.</a></li>
+				<li><a href="#" class="tt2 tooltip" title="This is the title for Item 2">Item 2</a></li>
+				<li><a href="#" class="tt3 tooltip" title="This is the title for Item 3">Item 3</a></li>
+				<li><a href="#" class="tt4 useSelector1" title="This is the title for Item 4">Item 4</a></li>
+				<li><a href="#" class="tt5 useSelector2" title="This is the title for Item 5">Item 5</a></li>
+				<li><a href="#" id="shockMe" title="This ajax request is a doosy">Shock Me</a></li>
+				<li><a href="#" class="jqModal">View in lightbox</a></li>
+			</ul>
+		</nav>
+		<aside>
+			<p>This is the right hand side <a href="#" id="ajaxifyMe">aside</a></p>
+		</aside>
+		<div class="content">
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla egestas velit ut arcu tristique ut pretium tellus malesuada. Aenean quis lacus non neque euismod euismod. Fusce nunc turpis, vestibulum a ornare vitae, molestie tempor lorem. Quisque lobortis imperdiet lectus, adipiscing placerat est posuere a. Aliquam quis orci lacus. Pellentesque eget orci vel est vestibulum dignissim ut non nisl. Vivamus at velit est. Quisque sodales, lorem eu consequat eleifend, felis lacus congue sapien, eu viverra velit est a tortor. Mauris eget turpis lacus, non egestas elit. In mattis ante eu libero condimentum eget porttitor metus consequat. Nunc molestie scelerisque tellus, volutpat rutrum leo lacinia euismod. Fusce ac quam odio. Nam tristique auctor viverra.</p>
+			<p><a href="#" id="setContent">Morbi</a> quis nibh ut metus vestibulum condimentum sit amet in odio. Quisque auctor pulvinar egestas. Nulla facilisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam et lectus tellus. Integer auctor dui vitae orci ultricies eu dapibus massa convallis. Donec convallis tortor id nisi tempus vitae cursus libero dignissim. Donec at sem eu augue volutpat sagittis. Cras consequat viverra elit, malesuada condimentum dui venenatis vitae. Maecenas tincidunt laoreet turpis in vulputate. Proin vel suscipit velit. Duis non viverra lacus. Maecenas egestas elementum dolor sed ultrices. Ut viverra mollis ipsum ut sollicitudin. Vivamus ac nibh nulla. Duis a nisi eget lacus egestas venenatis. Maecenas eu mi nibh. Sed congue ultricies convallis. Cras diam purus, vestibulum id hendrerit vel, laoreet et ante. Nunc sit amet urna ante, semper vestibulum leo.</p>
+			<p>Duis suscipit lectus ac metus ultricies quis tristique elit commodo. Phasellus ultrices feugiat aliquet. Cras a vestibulum elit. Curabitur eget turpis lacus. Praesent semper, eros eget tempus pharetra, nibh sapien suscipit leo, eu eleifend ante orci at quam. Mauris malesuada, dolor vel eleifend vehicula, leo metus luctus ipsum, at ultrices lorem metus ac odio. Mauris ultricies ligula non orci lacinia id venenatis magna cursus. Etiam a dui odio, sed consequat libero. Nulla a nisi eu nunc pretium mollis. Nam ac massa eu leo dictum dapibus. Proin id felis vestibulum ante vehicula posuere at non tellus.</p>
+			<p>In luctus molestie posuere. Phasellus dapibus lectus non mi laoreet at pretium ipsum elementum. Ut ante arcu, pretium ut pulvinar quis, consequat nec tellus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse gravida, arcu in imperdiet sodales, dui lectus hendrerit augue, nec semper dui neque hendrerit nisi. Curabitur nec gravida justo. Nunc feugiat tincidunt consequat. Aenean consectetur consectetur mi, ut faucibus augue dignissim sit amet. Donec vel mi vitae arcu aliquam blandit ut at arcu. Sed consequat egestas enim a sollicitudin. Cras ornare dui sed libero aliquam ac tempus massa convallis.</p>
+			<p><a href="#" id="onClick">I only open on click</a> Fusce erat enim, feugiat vitae semper non, suscipit non mi. Vivamus consectetur varius diam, quis congue sem ultrices eu. Ut porta pellentesque sapien, nec volutpat arcu faucibus non. Pellentesque quis augue quis risus venenatis auctor. Nulla ac nunc sit amet nulla vehicula aliquet sit amet in nulla. In hac habitasse platea dictumst. Nam ut faucibus nisi. Sed blandit fermentum massa et vulputate. Fusce ornare dapibus lacus vel consequat. Nam nibh turpis, porttitor eget pellentesque nec, viverra eu dui. Curabitur eget tortor enim, id consequat felis. Etiam in arcu et neque semper tincidunt non sed urna. In felis orci, laoreet et laoreet vel, accumsan eu lacus. Maecenas massa dolor, bibendum quis sollicitudin et, tincidunt at nisl. Integer eleifend sollicitudin enim, et tincidunt elit ullamcorper in. Quisque sit amet mi velit. Pellentesque quis leo mauris.</p>
+		</div>
+		<div id="hiddenDiv" style="display: none">
+			<p>I was once a sad, hidden div...however, I have now been transformed into a big beautiful tooltip!!</p>
+		</div>
+		<div id="anotherDiv" style="display: none">
+			<p>I'm just another div</p>
+		</div>
+	</div>
+
+	<!-- jqModal -->
+
+	<div class="jqmWindow" id="dialog">
+		<p><a href="#" class="tooltip" title="This is the title for the tooltip that's in the lightbox.  I should show up on top of the lightbox.">Click me</a> to show the tooltip</p>
+	</div>
+<script>kv= {};</script>
+	<script src="../../../js-lib/jquery/1.7.1/js/jquery.js"></script>
+	<script src="../../jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script src="../../../js-lib/jquery.hoverIntent/6/js/jquery.hoverIntent.js"></script>
+	<script src="../../../include/javascript/jquery_plugins/jqModal.js"></script>
+	<script src="../../kv/orig/js/kv.js"></script>
+	<script src="../dev/js/kv.tip.js"></script>
+
+	<script>
+
+		$('.tooltip').kvTip();
+		$('.useSelector1').kvTip({selector: '#hiddenDiv', size:{ width: 500, height: 100}});
+		$('.useSelector2').kvTip({selector: '#anotherDiv'});
+		$('#ajaxifyMe').kvTip({
+			content: "Kiva allows our Field Partners to re-use the same photo for individual borrowers that have been posted on Kiva's website once before in a 24 month period, and we allow them to re-use group photos for up to 24 months, provided that 80% of the current group's membership is represented. Taking, collecting, and uploading photos of borrowers is one of the most challenging elements of using Kiva for our Field Partners. In order to make Kiva easier for Field Partners to use, we have allowed them to post successive and concurrent loans without taking a new photo of the borrower if the criteria above are met."
+			, size:{
+				width: 300
+			}
+			, className: 'blah shmah'
+		});
+
+		var name = 'lucy';
+		var message = "I'm home!!";
+
+		$('#setContent').kvTip({
+			content: '<p>Fusce erat enim, feugiat vitae semper non, suscipit non mi. Vivamus consectetur varius diam, quis congue sem ultrices eu. Ut porta pellentesque sapien, nec volutpat arcu faucibus non. Pellentesque quis augue quis risus venenatis auctor. Nulla ac nunc sit amet nulla vehicula aliquet sit amet in nulla. In hac habitasse platea dictumst. Nam ut faucibus nisi. Sed blandit fermentum massa et vulputate. Fusce ornare dapibus lacus vel consequat. Nam nibh turpis, porttitor eget pellentesque nec, viverra eu dui. Curabitur eget tortor enim, id consequat felis. Etiam in arcu et neque semper tincidunt non sed urna. In felis orci, laoreet et laoreet vel, accumsan eu lacus. Maecenas massa dolor, bibendum quis sollicitudin et, tincidunt at nisl. Integer eleifend sollicitudin enim, et tincidunt elit ullamcorper in. Quisque sit amet mi velit. Pellentesque quis leo mauris.</p><p>Fusce erat enim, feugiat vitae semper non, suscipit non mi. Vivamus consectetur varius diam, quis congue sem ultrices eu. Ut porta pellentesque sapien, nec volutpat arcu faucibus non. Pellentesque quis augue quis risus venenatis auctor. Nulla ac nunc sit amet nulla vehicula aliquet sit amet in nulla. In hac habitasse platea dictumst. Nam ut faucibus nisi. Sed blandit fermentum massa et vulputate. Fusce ornare dapibus lacus vel consequat. Nam nibh turpis, porttitor eget pellentesque nec, viverra eu dui. Curabitur eget tortor enim, id consequat felis. Etiam in arcu et neque semper tincidunt non sed urna. In felis orci, laoreet et laoreet vel, accumsan eu lacus. Maecenas massa dolor, bibendum quis sollicitudin et, tincidunt at nisl. Integer eleifend sollicitudin enim, et tincidunt elit ullamcorper in. Quisque sit amet mi velit. Pellentesque quis leo mauris.</p><p>Fusce erat enim, feugiat vitae semper non, suscipit non mi. Vivamus consectetur varius diam, quis congue sem ultrices eu. Ut porta pellentesque sapien, nec volutpat arcu faucibus non. Pellentesque quis augue quis risus venenatis auctor. Nulla ac nunc sit amet nulla vehicula aliquet sit amet in nulla. In hac habitasse platea dictumst. Nam ut faucibus nisi. Sed blandit fermentum massa et vulputate. Fusce ornare dapibus lacus vel consequat. Nam nibh turpis, porttitor eget pellentesque nec, viverra eu dui. Curabitur eget tortor enim, id consequat felis. Etiam in arcu et neque semper tincidunt non sed urna. In felis orci, laoreet et laoreet vel, accumsan eu lacus. Maecenas massa dolor, bibendum quis sollicitudin et, tincidunt at nisl. Integer eleifend sollicitudin enim, et tincidunt elit ullamcorper in. Quisque sit amet mi velit. Pellentesque quis leo mauris.</p>'
+			, size: {
+				width: 300
+			}
+		});
+		$('#onClick').kvTip({
+			content: '<iframe width="425" height="349" src="http://www.youtube.com/embed/-F2vwpnT-K8" frameborder="0" allowfullscreen></iframe>'
+			, size: {
+				width: 425
+				, height: 349
+			}
+			, show: {
+				onclick: true
+			}
+		});
+		var $shock = $('#shockMe').kvTip({
+			ajax: {
+				cache: false
+				, url: 'shock.html'
+			}
+		});
+
+		// Test tooltip inside a lightbox
+		$('#dialog').jqm();
+
+		// test for collision, which is not yet supported
+		//	$('.tt2').kvTip('This is a second tooltip being added to Item 2');
+
+	</script>
+</body>
+</html>
