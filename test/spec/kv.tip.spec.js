@@ -1,7 +1,7 @@
 
 
 /*
-@todo - these tests need to be rewritten into jasmine format
+@todo - these tests need to be rewritten into buster-js format
 
 var $el, $tip, elTitle, myString;
 

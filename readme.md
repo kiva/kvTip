@@ -1,6 +1,7 @@
 @TODOs before making public:
 
 - add some basic unit testing
+- integrate with travis
 - add ability to set position
 - make hoverIntent dependency optional
 
