@@ -4,6 +4,7 @@
 - integrate with travis
 - add ability to set position
 - make hoverIntent dependency optional
+- tooltips should close when the user clicks outside the tooltip.
 
 
 While there are many tooltip libraries out there, not one fit the description of what we need for Kiva.org.  So, after nearly 6 months of tooltip-less Chai, it was time we created our own.
