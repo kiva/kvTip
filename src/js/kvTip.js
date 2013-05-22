@@ -16,7 +16,7 @@ $.fn.kvTip = function (args){
         args = {content:args};
     }
 
-    var options = setOptions(args, kv.tip.defaults);
+    var options = $.extend(true, {}, args, kv.tip.defaults);
 
     // Iterate thru each tooltip
     return this.each(function() {
@@ -26,8 +26,8 @@ $.fn.kvTip = function (args){
             , $tip							// The tooltip
             , tip = {						// suplemental tip data
                 i: count
-                , width: opts.size.width || ''
-                , height: opts.size.height || ''
+                , width: opts.width || ''
+                , height: opts.height || ''
             };
 
         tip.id = 'kvTip_' + tip.i;
@@ -97,7 +97,22 @@ $.fn.kvTip = function (args){
         });
 
         // Now that we have a tooltip, display it
-        if (!opts.show.onclick){
+        if (opts.showOnclick){
+            // Otherwise, add the click event
+            $el.click(function (e) {
+                e.preventDefault();
+                showTip($tip, opts);
+            })
+                .mouseenter(function () {
+                    clearTimeout(timer[tip.i]);		// Keep the tooltip open if it already exists
+                    delete( timer[tip.i]);
+                })
+                .mouseleave(function () {
+                    hideTip($el, $tip, tip, opts);
+                });
+        }
+        else{
+
             // Attach hover event if onclick is disabled
             $el.hoverIntent(function () {
                     clearTimeout(timer[tip.i]);		// Keep the tooltip if it already exists
@@ -113,20 +128,6 @@ $.fn.kvTip = function (args){
                     hideTip($el, $tip, tip, opts);
                 });
         }
-        else{
-            // Otherwise, add the click event
-            $el.click(function (e) {
-                e.preventDefault();
-                showTip($tip, opts);
-            })
-                .mouseenter(function () {
-                    clearTimeout(timer[tip.i]);		// Keep the tooltip open if it already exists
-                    delete( timer[tip.i]);
-                })
-                .mouseleave(function () {
-                    hideTip($el, $tip, tip, opts);
-                });
-        }
 
         // Store a reference in the target elemens data object that references its associated tooltip ( helps with unit testing )
         $el.data('kvTip', {tipID: tip.id });
@@ -136,66 +137,22 @@ $.fn.kvTip = function (args){
 };
 
 
-kv.tip = {
-    // Defaults can be overriden
-    defaults : {
-        title: ''
-        , content: ''
-        , selector: ''
-        , cache: true	// Javascript cache, unlike ajax.cache which is browser cache
-        , ajax: null
-        , inlineUrl: ''
-        , inlineData: ''
-        , preventDefault: true
-        , className: 'kvTip'
-        , position: {
-            my: 'left top'
-            , at: 'right top'
-            , offset: '15 -20'
-            , collision: 'flip none'
-        }
-        , size: {
-            width: null
-            , height: null
-        }
-        , show: {
-            onclick: false
-        }
-        , hide: {
-            onclick: false // @todo: onclick = true is not yet supported
-            , delay: 300
-        }
-    }
-
-    , setDefaults :  function (settings) {
-        $.extend(kv.tip.defaults, settings);
-    }
-};
-
-//Merge new & defaults options
-function setOptions (n, d) {
-    if (!isset(n)) {
-        return $.extend(true, {}, d);
-    }
-
-    return {
-        title: isset(n.title) ? n.title : d.title
-        , content: isset(n.content) ? n.content : d.content
-        , selector: isset(n.selector) ? n.selector : d.selector
-        , cache: isset(n.cache) ? n.cache : d.cache
-        , ajax: isset(n.ajax) ? n.ajax : d.ajax
-        , inlineUrl: isset(n.inlineUrl) ? n.inlineUrl : d.inlineUrl
-        , inlineData: isset(n.inlineData) ? n.inlineData : d.inlineData
-        , preventDefault: n.preventDefault ? n.preventDefault : d.preventDefault
-        , className: isset(n.className) ? d.className + ' ' + n.className : d.className
-        , position: $.extend(true, {}, d.position, n.position)
-        , size: isset(n.size) ? n.size : d.size
-        , show: $.extend({}, d.show, n.show)
-        , hide: $.extend({}, d.hide, n.hide)
-        , onload: isset(n.onload) ? n.onload : d.onload
-        , onshow: isset(n.onshow) ? n.onshow : d.onshow
-        , onhide: isset(n.onhide) ? n.onhide : d.onhide
-    };
+kv.tip.defaults = {
+    title: ''
+    , content: ''
+    , selector: ''
+    , cache: true	// Javascript cache, unlike ajax.cache which is browser cache
+    , ajax: null
+    , inlineUrl: ''
+    , inlineData: ''
+    , preventDefault: true
+    , className: 'kvTip'
+    , position: 'top-right'
+    , width: null
+    , height: null
+    , showOnClick: false
+    , hideOnClick: false // @todo: onclick = true is not yet supported
+    , hideOnDelay: 300
 }
 
 // Create the tooltip
