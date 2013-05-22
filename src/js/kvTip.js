@@ -2,6 +2,8 @@ var count = 0   // counts the number of tooltips
 , timer = [];   // time to hover from target element to the tooltip, and back
 
 
+var kvTip = {};
+
 /**
  * Tooltips
  *
@@ -16,7 +18,7 @@ $.fn.kvTip = function (args){
         args = {content:args};
     }
 
-    var options = $.extend(true, {}, args, kv.tip.defaults);
+    var options = $.extend(true, {}, args, kvTip.defaults);
 
     // Iterate thru each tooltip
     return this.each(function() {
@@ -137,7 +139,7 @@ $.fn.kvTip = function (args){
 };
 
 
-kv.tip.defaults = {
+kvTip.defaults = {
     title: ''
     , content: ''
     , selector: ''
@@ -193,7 +195,7 @@ function getTip ($el, tip, opts) {
         })
         .addClass('loading')
         .appendTo('body')
-        .position(opts.position)
+//        .position(opts.position)
         .click(function() {
             hideTip($el, $tip, tip, opts);
         });
@@ -234,7 +236,7 @@ function hideTip($el, $tip, tip, opts){
             }
         }).removeClass('active');
 
-    }, opts.hide.delay);
+    }, opts.hideDelay);
 }
 
 //Retrieve the content
