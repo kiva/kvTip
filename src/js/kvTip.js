@@ -2,8 +2,6 @@ var count = 0   // counts the number of tooltips
 , timer = [];   // time to hover from target element to the tooltip, and back
 
 
-var KvTip = {};
-
 /**
  * Tooltips
  *
@@ -22,125 +20,124 @@ $.fn.kvTip = function (args){
 
     // Iterate thru each tooltip
     return this.each(function() {
-
-        var $el = $(this)					// The target element
-            , opts = $.extend({}, options)	// individual tooltip options
-            , $tip							// The tooltip
-            , tip = {						// suplemental tip data
-                i: count
-                , width: opts.width || ''
-                , height: opts.height || ''
-            };
-
-        tip.id = 'kvTip_' + tip.i;
-
-        // Prevent default click event on link elements
-        if( this.nodeName.toLowerCase() == 'a' && opts.preventDefault ){
-            $el.click(function (e) {
-                e.preventDefault();
-            });
-        }
-
-        // Immediately create the tooltip upon hovering over the target element...just don't display it
-        $el.mouseenter(function () {
-
-            // Make sure the browser's default title-tooltip doesn't pop up, store the title's value so it can be replaced on mouseout
-            tip.elTitle = $el.attr('title');
-            $el.attr('title', '');
-
-            // Set the element that we are positioning relative to (used by jquery ui position)
-            opts.position.of = $el;
-
-            // Get a reference to the tooltip
-            $tip = $('#' + tip.id);
-
-            // Disable browser cache if js cache is disabled
-            if (opts.ajax && opts.cache === false) {
-                opts.cache = false;
-            }
-
-            // Make sure we have a tooltip
-            // Does one already exist?  Even if it does, have we disabled caching?
-            if (!$tip.length || (opts.ajax && opts.ajax.cache === false) || (opts.cache === false)){
-
-                // If caching is off, remove the old tooltip
-                if ((opts.ajax && opts.ajax.cache === false) || (opts.cache === false)){
-                    $tip.remove();
-                }
-
-                // Get the new tip
-                $tip = getTip($el, tip, opts);
-
-                // Get the content, taking async calls into account
-                $.when(getContent($el, tip, opts))
-                    .done(function(content) {
-                        if (typeof opts.onload == 'function') {
-                            content = opts.onload.call($tip, content);
-                        }
-
-                        if (content) {
-                            addContent($tip, tip, opts, content);
-                        } else {
-                            $tip.remove();
-                        }
-                    })
-                    .fail(function() {
-                        // If the ajax request failed, run getContent again
-                        // This time, however, skip the ajax request and get alternate content
-                        var content = getContent($el, tip, opts, true);
-
-                        if (content) {
-                            addContent($tip, tip, opts, content);
-                        } else {
-                            $tip.remove();
-                        }
-                    });
-            }
-        });
-
-        // Now that we have a tooltip, display it
-        if (opts.showOnclick){
-            // Otherwise, add the click event
-            $el.click(function (e) {
-                e.preventDefault();
-                showTip($tip, opts);
-            })
-                .mouseenter(function () {
-                    clearTimeout(timer[tip.i]);		// Keep the tooltip open if it already exists
-                    delete( timer[tip.i]);
-                })
-                .mouseleave(function () {
-                    hideTip($el, $tip, tip, opts);
-                });
-        }
-        else{
-
-            // Attach hover event if onclick is disabled
-            $el.hoverIntent(function () {
-                    clearTimeout(timer[tip.i]);		// Keep the tooltip if it already exists
-                    delete(timer[tip.i]);
-
-                    showTip($tip, opts);
-                }
-                , function () {} // @todo, see note on mouseleave event
-            )
-                .mouseleave(function () {
-                    // @todo, better integrate with hoverIntent, we should be able to use hoverIntent's "out" method instead of this event handler
-                    // Currently, the reason for the extra event handler is to take the hover timeout into consideration
-                    hideTip($el, $tip, tip, opts);
-                });
-        }
-
-        // Store a reference in the target elemens data object that references its associated tooltip ( helps with unit testing )
-        $el.data('kvTip', {tipID: tip.id });
-        count++;
+        new KvTip($(this), options);
     });
 
 };
 
 
-function KvTip () {
+function KvTip ($el, options) {
 
+    var opts = $.extend({}, options)	// individual tooltip options
+        , $tip							// The tooltip
+        , tip = {						// suplemental tip data
+            i: count
+            , width: opts.width || ''
+            , height: opts.height || ''
+        };
+
+    tip.id = 'kvTip_' + tip.i;
+
+    // Prevent default click event on link elements
+    if($el[0].nodeName.toLowerCase() == 'a' && opts.preventDefault ){
+        $el.click(function (e) {
+            e.preventDefault();
+        });
+    }
+
+    // Immediately create the tooltip upon hovering over the target element...just don't display it
+    $el.mouseenter(function () {
+
+        // Make sure the browser's default title-tooltip doesn't pop up, store the title's value so it can be replaced on mouseout
+        tip.elTitle = $el.attr('title');
+        $el.attr('title', '');
+
+        // Set the element that we are positioning relative to (used by jquery ui position)
+        opts.position.of = $el;
+
+        // Get a reference to the tooltip
+        $tip = $('#' + tip.id);
+
+        // Disable browser cache if js cache is disabled
+        if (opts.ajax && opts.cache === false) {
+            opts.cache = false;
+        }
+
+        // Make sure we have a tooltip
+        // Does one already exist?  Even if it does, have we disabled caching?
+        if (!$tip.length || (opts.ajax && opts.ajax.cache === false) || (opts.cache === false)){
+
+            // If caching is off, remove the old tooltip
+            if ((opts.ajax && opts.ajax.cache === false) || (opts.cache === false)){
+                $tip.remove();
+            }
+
+            // Get the new tip
+            $tip = getTip($el, tip, opts);
+
+            // Get the content, taking async calls into account
+            $.when(getContent($el, tip, opts))
+                .done(function(content) {
+                    if (typeof opts.onload == 'function') {
+                        content = opts.onload.call($tip, content);
+                    }
+
+                    if (content) {
+                        addContent($tip, tip, opts, content);
+                    } else {
+                        $tip.remove();
+                    }
+                })
+                .fail(function() {
+                    // If the ajax request failed, run getContent again
+                    // This time, however, skip the ajax request and get alternate content
+                    var content = getContent($el, tip, opts, true);
+
+                    if (content) {
+                        addContent($tip, tip, opts, content);
+                    } else {
+                        $tip.remove();
+                    }
+                });
+        }
+    });
+
+    // Now that we have a tooltip, display it
+    if (opts.showOnclick){
+        // Otherwise, add the click event
+        $el.click(function (e) {
+            e.preventDefault();
+            showTip($tip, opts);
+        })
+            .mouseenter(function () {
+                clearTimeout(timer[tip.i]);		// Keep the tooltip open if it already exists
+                delete( timer[tip.i]);
+            })
+            .mouseleave(function () {
+                hideTip($el, $tip, tip, opts);
+            });
+    }
+    else{
+
+        // Attach hover event if onclick is disabled
+        $el.hoverIntent(function () {
+                clearTimeout(timer[tip.i]);		// Keep the tooltip if it already exists
+                delete(timer[tip.i]);
+
+                showTip($tip, opts);
+            }
+            , function () {} // @todo, see note on mouseleave event
+        )
+            .mouseleave(function () {
+                // @todo, better integrate with hoverIntent, we should be able to use hoverIntent's "out" method instead of this event handler
+                // Currently, the reason for the extra event handler is to take the hover timeout into consideration
+                hideTip($el, $tip, tip, opts);
+            });
+    }
+
+    // Store a reference in the target elemens data object that references its associated tooltip ( helps with unit testing )
+    $el.data('kvTip', {tipID: tip.id });
+    count++;
 }
 
 
