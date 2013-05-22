@@ -1,5 +1,4 @@
 var count = 0   // counts the number of tooltips
-, timer = [];   // time to hover from target element to the tooltip, and back
 
 
 /**
@@ -29,20 +28,13 @@ $.fn.kvTip = function (args){
 function KvTip ($el, options) {
 
     var opts = $.extend({}, options)	// individual tooltip options
-    , tip = {						// suplemental tip data
-        i: count
-        , width: opts.width || ''
-        , height: opts.height || ''
-    };
 
     this._timer = '';
-    this._id = '';
+    this._id = count++;
     this.$el = $el;
-    this.width = '';
-    this.height = '';
+    this.width = opts.width || '';
+    this.height = opts.height || '';
     this.options = opts;
-
-    tip.id = 'kvTip_' + tip.i;
 
     // Prevent default click event on link elements
     if($el[0].nodeName.toLowerCase() == 'a' && opts.preventDefault ){
@@ -54,8 +46,7 @@ function KvTip ($el, options) {
     this.initBindings();
 
     // Store a reference in the target elemens data object that references its associated tooltip ( helps with unit testing )
-    $el.data('kvTip', {tipID: tip.id });
-    count++;
+    $el.data('kvTip', {tipID: this.id()});
 }
 
 
@@ -127,7 +118,7 @@ KvTip.prototype = {
         var opts = this.options;
 
 
-        var $tip = $('<div id="' + tip.id + '" class="' + opts.className + '" />')
+        var $tip = $('<div id="' + tip.id() + '" class="' + opts.className + '" />')
             , zIndex;
 
         // Add an externally defined title if it exists
@@ -237,7 +228,7 @@ KvTip.prototype = {
 
             // Prep the clone
             $tempTip.removeClass('loading')
-                .attr('id','tempTip_' + tip.i)
+                .attr('id', tip.id())
                 .css({ width: tip.width || '', height: tip.height || '' })
                 .appendTo('body')
                 .find('.kvTipContent')
