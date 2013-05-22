@@ -2,7 +2,7 @@ var count = 0   // counts the number of tooltips
 , timer = [];   // time to hover from target element to the tooltip, and back
 
 
-var kvTip = {};
+var KvTip = {};
 
 /**
  * Tooltips
@@ -18,7 +18,7 @@ $.fn.kvTip = function (args){
         args = {content:args};
     }
 
-    var options = $.extend(true, {}, args, kvTip.defaults);
+    var options = $.extend(true, {}, args, KvTip.defaults);
 
     // Iterate thru each tooltip
     return this.each(function() {
@@ -139,7 +139,38 @@ $.fn.kvTip = function (args){
 };
 
 
-kvTip.defaults = {
+function KvTip () {
+
+}
+
+
+KvTip.prototype = {
+
+    /**
+     * Position's the tooltip in the appropriate place.
+     *
+     */
+    position: function () {
+        var elPos = $.extend({}, $el.offset(), {
+            width: $el[0].offsetWidth
+            , height: $el[0].offsetHeight
+        });
+
+        var tipWidth = $tip[0].offsetWidth
+        , tipHeight = $tip[0].offsetHeight;
+
+        var css = {
+            'z-index': zIndex + 1
+            , top: elPos.top + elPos.height / 2 - tipHeight / 2
+            , left: elPos.left + elPos.width
+        };
+
+        this.$tip.css(css);
+    }
+}
+
+
+KvTip.defaults = {
     title: ''
     , content: ''
     , selector: ''
@@ -155,7 +186,7 @@ kvTip.defaults = {
     , showOnClick: false
     , hideOnClick: false // @todo: onclick = true is not yet supported
     , hideOnDelay: 300
-}
+};
 
 // Create the tooltip
 function getTip ($el, tip, opts) {
