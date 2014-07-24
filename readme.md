@@ -1,3 +1,5 @@
+# Deprecated in WWW in favaor of qTip
+
 @TODOs before making public:
 
 - add some basic unit testing
